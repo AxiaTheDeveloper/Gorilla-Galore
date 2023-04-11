@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Daratan
+  - Obstacle
+  - TimeEnhance
+  - Healing
+  - Ladder
+  - PlayerAttack
+  - FinalGround
   layers:
   - Default
   - TransparentFX
@@ -13,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Ladder
   - 
   - 
   - 
@@ -44,6 +50,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2191114819
+    locked: 0
+  - name: Ladder
+    uniqueID: 3716459671
     locked: 0
   - name: Entity
     uniqueID: 3586762647

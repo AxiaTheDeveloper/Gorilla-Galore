@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class PlayerIdentity : MonoBehaviour
 {
-    [SerializeField]GameInput gameInput;
+    [SerializeField]private GameInput gameInput;
+
+    [SerializeField]private int playerHealth;
+
+    public enum PlayerName{
+        As, Bs, Cs
+    }
+    private PlayerName names;
+
+
+
+
     [SerializeField]private GameObject Player1,Player2, Player3;
     [SerializeField]private PlayerMovement playerMove;
     [SerializeField]private float changeCooldownTimer;
@@ -21,6 +32,7 @@ public class PlayerIdentity : MonoBehaviour
     [SerializeField]private float jumpForce3;
     
     private void Start() {
+        names = PlayerName.As;
         Player1.SetActive(true);
         Player2.SetActive(false);
         Player3.SetActive(false);
@@ -30,12 +42,16 @@ public class PlayerIdentity : MonoBehaviour
     }
     private void Update() {
         //ntr br kasih syarat
-        changeCharacter();
+        if(!playerMove.GetIsHurt() && DKGameManager.Instance.IsGameStart()){
+            changeCharacter();
+        }
+        
     }
     private void changeCharacter(){
         if(canChange){
             if(gameInput.GetInputChangePlayer1() && !Player1.activeSelf){
                 SetIdentity(Player1,speedPlayer1,jumpForce1);
+                names = PlayerName.As;
                 Player1.SetActive(true);
                 Player2.SetActive(false);
                 Player3.SetActive(false);
@@ -43,6 +59,7 @@ public class PlayerIdentity : MonoBehaviour
             }
             else if(gameInput.GetInputChangePlayer2() && !Player2.activeSelf){
                 SetIdentity(Player2,speedPlayer2,jumpForce2);
+                names = PlayerName.Bs;
                 Player1.SetActive(false);
                 Player2.SetActive(true);
                 Player3.SetActive(false);
@@ -50,6 +67,7 @@ public class PlayerIdentity : MonoBehaviour
             }
             else if(gameInput.GetInputChangePlayer3() && !Player3.activeSelf){
                 SetIdentity(Player3,speedPlayer3,jumpForce3);
+                names = PlayerName.Cs;
                 Player1.SetActive(false);
                 Player2.SetActive(false);
                 Player3.SetActive(true);
@@ -73,4 +91,14 @@ public class PlayerIdentity : MonoBehaviour
         yield return new WaitForSeconds(changeCooldownTimer);
         canChange = true;
     }
+
+    public void changePlayerHealth(int health){
+        playerHealth += health;
+        Debug.Log(playerHealth);
+    }
+
+    public PlayerName GetName(){
+        return names;
+    }
+    
 }
