@@ -7,7 +7,7 @@ public class DKGameManager : MonoBehaviour
 {
     public static DKGameManager Instance {get; private set;}
     private enum gameState{
-        WaitingToStart, CountDown, GameStart, GameOver
+        WaitingToStart, CountDown, GameStart, GameOver, Cinematic
     }
     private gameState state;
     //Idk if we need countdown or not
@@ -27,15 +27,17 @@ public class DKGameManager : MonoBehaviour
         OnInteractStartGame += gameManager_OnInteractStartGame;
     }
     private void gameManager_OnInteractStartGame(object sender, System.EventArgs e){
-        if(state == gameState.WaitingToStart){
-            state = gameState.CountDown;
-        }
+        
+        state = gameState.CountDown;
+        
     }
 
     
     private void Update() {
-        if(GameInput.Instance.GetInputInteract()){
-            OnInteractStartGame?.Invoke(this,EventArgs.Empty);
+        if(state == gameState.WaitingToStart){
+            if(GameInput.Instance.GetInputInteract()){
+                OnInteractStartGame?.Invoke(this,EventArgs.Empty);
+            }
         }
         else if(state == gameState.CountDown){
             countDownTimer -= Time.deltaTime;
@@ -49,11 +51,17 @@ public class DKGameManager : MonoBehaviour
             gamePlayTimer -= Time.deltaTime;
             if(gamePlayTimer <= 0f){
                 state = gameState.GameOver;
-                OnStopGame?.Invoke(this,EventArgs.Empty);
+                
             }
+        }
+        else if(state == gameState.GameOver){
+            OnStopGame?.Invoke(this,EventArgs.Empty);
         }
     }
 
+    public void setGameOver(){
+        state = gameState.GameOver;
+    }
 
     public bool IsGameStart(){
         return state == gameState.GameStart;

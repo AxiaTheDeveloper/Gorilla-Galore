@@ -9,8 +9,9 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField]private float speedPlatform, timerIdleTotal;
     private float timerIdle;
     private Transform tujuan;
+    private const string PLAYER_TAG = "Player";
 
-
+    
     private void Start() {
         tujuan = position1;
 
@@ -38,6 +39,23 @@ public class MovingPlatform : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, tujuan.position, speedPlatform * Time.deltaTime);
         }
         
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.CompareTag(PLAYER_TAG)){
+            
+            if(transform.position.y < other.gameObject.transform.position.y){
+                other.gameObject.transform.SetParent(transform);
+            }
+
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other) {
+        if(other.gameObject.CompareTag(PLAYER_TAG)){
+            other.gameObject.transform.SetParent(null);
+            Debug.Log("WOIIIIIIIIII BAAAAAA");
+        }
     }
 
 

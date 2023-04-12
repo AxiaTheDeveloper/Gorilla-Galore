@@ -8,7 +8,12 @@ public class ObstaclePool : MonoBehaviour
     [SerializeField]private Transform[] ObstacleArrayPrefab;
     [SerializeField]private int totalObstacle;
     [SerializeField]private float obstacleSpawnWait;
-    
+    private enum Level{
+        level1, level2, level3,level4
+    }
+    [SerializeField]private Level levelNow;
+    private int random;
+    private bool isSpawnOn;
     public List<Transform> Obstacles = new List<Transform>();
 
     private void Start() {
@@ -24,22 +29,46 @@ public class ObstaclePool : MonoBehaviour
             
             Obstacles.Add(obstacle);
         }
+        isSpawnOn = true;
     }
 
     private void gameManager_OnStartGame(object sender, System.EventArgs e){
         StartCoroutine(startSpawn());
     }
     private void gameManager_OnStopGame(object sender, System.EventArgs e){
+        isSpawnOn = false;
         StopCoroutine(startSpawn());
     }
 
     private IEnumerator startSpawn(){
         yield return new WaitForSeconds(0.1f);
-        while(enabled){
+        while(isSpawnOn){
             foreach(Transform obstacle in Obstacles){
+                if(!isSpawnOn){
+                    break;
+                }
                 if(obstacle.gameObject.activeSelf){
                     continue;
                 }
+                // obstacle.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                // int random = Random.Range(0,2) == 0 ? -1 : 1;
+                
+                if(levelNow == Level.level1){
+                    random = -1;
+                }
+                else if(levelNow == Level.level2){
+                    random = Random.Range(0,2) == 0 ? -1 : 1;
+                }
+                else if(levelNow == Level.level3){
+                    random = Random.Range(0,2) == 0 ? -1 : 1;
+                }
+                else if(levelNow == Level.level4){
+                    random = Random.Range(0,2) == 0 ? -1 : 1;
+                }
+                Obstacle obs = obstacle.GetComponent<Obstacle>();
+                obs.ChangeDirection(random);
+                
+                // obstacle.GetComponent<Rigidbody2D>().velocity =  new Vector2(obstacle.GetComponent<Rigidbody2D>().velocity.x,-30);
                 obstacle.position = transform.position;
                 obstacle.rotation = transform.rotation;
                 obstacle.gameObject.SetActive(true);
@@ -49,6 +78,8 @@ public class ObstaclePool : MonoBehaviour
         }
 
     }
+
+    
 
     
 

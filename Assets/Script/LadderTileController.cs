@@ -6,6 +6,10 @@ public class LadderTileController : MonoBehaviour
 {
     [SerializeField]private GameObject tileCollider;
     public Collider2D GetTileCollider(){
-        return tileCollider.GetComponent<Collider2D>();
+        if(tileCollider){
+            return tileCollider.GetComponent<Collider2D>();
+        }
+        return null;
+        
     }
 }

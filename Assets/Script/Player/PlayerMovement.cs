@@ -24,7 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D coll;
     [SerializeField]private LayerMask layerGround;
     [SerializeField]private LayerMask layerLadder;
-    private bool isOnGround;
+    // private bool isOnGround;
+    [SerializeField]private int saveTotalJump;
+    private int totalJump;
 
     [Header("This is for Player Hurt")]
     private bool isHurt;
@@ -51,19 +53,18 @@ public class PlayerMovement : MonoBehaviour
         results = new Collider2D[4];
     }
     private void Start() {
+        rb.isKinematic = false;
         isJalan = false;
-        isOnGround = false;
+        // isOnGround = false;
         isHurt = false;
         canClimb = false;
         isClimb = false;
         gravityScaleTemp = rb.gravityScale;
+        totalJump = saveTotalJump;
     }
     private void Update() {
         if(DKGameManager.Instance.IsGameStart()){
-            // CheckCollision();
-            // if(coll.IsTouchingLayers(layerLadder)){
-            //     canClimb = true;
-            // }
+            
             if(!isHurt){
                 if(!isClimb){
                     PlayerWalk();
@@ -89,10 +90,17 @@ public class PlayerMovement : MonoBehaviour
         transform.position += (arahGerak * speedPlayer * Time.deltaTime);
     }
     private void PlayerJump(){
-        if(gameInput.GetInputJump() && coll.IsTouchingLayers(layerGround)){
+        if(gameInput.GetInputJump() && totalJump > 0){
             // isOnGround = false;
+            totalJump -= 1;
+            // Debug.Log(totalJump);
             rb.AddForce(loncatVector * jumpForce * JUMP_MULTIPLIER);
         }
+        
+    }
+    //  && transform.position.y > coll.gameObject.transform.position.y 
+    public void ResetJump(){
+        totalJump = saveTotalJump;
     }
 
     private void PlayerClimb(){
@@ -116,7 +124,10 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x,keyInputY * climbSpeed);
             transform.position += (arahGerakLadder * climbSpeed * Time.deltaTime);
             Collider2D tileLadder = ladder.GetComponent<LadderTileController>().GetTileCollider(); 
-            Physics2D.IgnoreCollision(coll, tileLadder, true);
+            if(tileLadder){
+                Physics2D.IgnoreCollision(coll, tileLadder, true);
+            }
+            
         }
         else{
             rb.gravityScale = gravityScaleTemp;
