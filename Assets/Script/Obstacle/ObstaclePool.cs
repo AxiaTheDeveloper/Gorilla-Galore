@@ -19,11 +19,13 @@ public class ObstaclePool : MonoBehaviour
     private void Start() {
         gameManager.OnStartGame += gameManager_OnStartGame;
         gameManager.OnStopGame += gameManager_OnStopGame;
+        
+
         for(int i=0;i<totalObstacle;i++){
             Transform chosenObstacle = ObstacleArrayPrefab[Random.Range(0,ObstacleArrayPrefab.Length)];
             Transform obstacle = Instantiate(chosenObstacle);
             obstacle.gameObject.SetActive(false);
-            
+            obstacle.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             obstacle.position = transform.position;
             obstacle.rotation = transform.rotation;
             
@@ -41,7 +43,7 @@ public class ObstaclePool : MonoBehaviour
     }
 
     private IEnumerator startSpawn(){
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.7f);
         while(isSpawnOn){
             foreach(Transform obstacle in Obstacles){
                 if(!isSpawnOn){

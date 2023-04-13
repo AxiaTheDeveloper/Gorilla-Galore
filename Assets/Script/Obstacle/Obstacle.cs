@@ -19,11 +19,17 @@ public class Obstacle : MonoBehaviour
         Bone, Book, Paper, Bomb
     }
     [SerializeField]private NamaDamageObject nama;
+    [SerializeField]private int scorePoint;
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
     private void Start() {
         saveSpeed = speedObstacle;
+        DKGameManager.Instance.OnStopGame += gameManager_OnStopGame;
+
+    }
+    private void gameManager_OnStopGame(object sender, System.EventArgs e){
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
     
 
@@ -35,11 +41,19 @@ public class Obstacle : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag(DESTROYER_TAG)){
+            
             PlayerAttack cek = other.gameObject.GetComponentInParent<PlayerAttack>();
             if(cek.GetName() == PlayerAttack.PlayerName.Bs && nama == NamaDamageObject.Bone){
+                Debug.Log("Test");
+                other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }
-            if(cek.GetName() == PlayerAttack.PlayerName.Cs && nama == NamaDamageObject.Paper){
+            if(cek.GetName() == PlayerAttack.PlayerName.Cs && nama == NamaDamageObject.Book){
+                other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
+                this.gameObject.SetActive(false);
+            }
+            if(cek.GetName() == PlayerAttack.PlayerName.Ds && nama == NamaDamageObject.Paper){
+                other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }
             

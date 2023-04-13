@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class PlayerInteraction : MonoBehaviour
     private const string OBSTACLE_TAG = "Obstacle";
     private const string GROUND_TAG = "Daratan";
     private const string WIN_TAG = "WinTag";
+    private const string FINAL_GROUND_TAG = "FinalGround";
 
     //--------------------------------------------
     private int damage, heal;
     private float time, hurtForce;
     private Obstacle obs;
+
+    
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.CompareTag(OBSTACLE_TAG)){
@@ -32,7 +36,7 @@ public class PlayerInteraction : MonoBehaviour
                     playerMovement.GotHurt(hurtForce);
                 }
                 playerIdentity.changePlayerHealth(-damage);
-                other.gameObject.SetActive(false);
+                // other.gameObject.SetActive(false);
                 //terserah destroy ato setactive false, mungkin nanti bs ke setactive false aja ??
 
 
@@ -61,7 +65,10 @@ public class PlayerInteraction : MonoBehaviour
             //add ke game manager
         }
         else if(other.gameObject.CompareTag(WIN_TAG)){
-            DKGameManager.Instance.setGameOver();
+            DKGameManager.Instance.setGameOver(true);
+        }
+        else if(other.gameObject.CompareTag(FINAL_GROUND_TAG)){
+            DKGameManager.Instance.setGameOver(false);
         }
     }
 

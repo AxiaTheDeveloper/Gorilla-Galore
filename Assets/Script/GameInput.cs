@@ -7,7 +7,7 @@ public class GameInput : MonoBehaviour
     public static GameInput Instance {get; private set;}
     
     private float keyInputX, keyInputY;
-    private bool inputJump, inputChangePlayer1, inputChangePlayer2, inputChangePlayer3, inputInteract, inputMovementY;
+    private bool inputJump, inputChangePlayer1, inputChangePlayer2, inputChangePlayer3, inputChangePlayer4, inputInteract, inputMovementY, inputContinueUI;
     private void Awake() {
         Instance = this;
     }
@@ -39,6 +39,11 @@ public class GameInput : MonoBehaviour
         
         return inputJump;
     }
+    public bool GetInputContinueUI(){
+        inputContinueUI = Input.GetKeyDown(KeyCode.Space);
+        
+        return inputContinueUI;
+    }
 
     public bool GetInputInteract(){
         inputInteract = Input.GetKeyDown(KeyCode.F);
@@ -58,6 +63,10 @@ public class GameInput : MonoBehaviour
     public bool GetInputChangePlayer3(){
         inputChangePlayer3 = Input.GetKeyDown(KeyCode.K);
         return inputChangePlayer3;
+    }
+    public bool GetInputChangePlayer4(){
+        inputChangePlayer4 = Input.GetKeyDown(KeyCode.L);
+        return inputChangePlayer4;
     }
     
 

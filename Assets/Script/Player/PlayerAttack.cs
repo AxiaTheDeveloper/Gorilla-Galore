@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField]private GameObject attackCollider1, attackCollider2;
+    [SerializeField]private GameObject attackCollider1, attackCollider2, attackCollider3;
     [SerializeField]private PlayerIdentity playerIdentity;
     public enum PlayerName{
-        Bs, Cs
+        Bs, Cs, Ds
     }
     private PlayerName namesHereCHECK;
 
-    private bool canAttack, timerStart1, timerStart2;
-    [SerializeField]private float attackCooldown1,attackCooldown2;
+    private bool canAttack, timerStart1, timerStart2, timerStart3;
+    
+    [SerializeField]private float attackDuration1,attackDuration2, attackDuration3;
 
     private void Start() {
         attackCollider1.SetActive(false);
         attackCollider2.SetActive(false);
+        attackCollider3.SetActive(false);
         canAttack = true; 
         timerStart1 = false;
         timerStart2 = false;
@@ -25,11 +27,15 @@ public class PlayerAttack : MonoBehaviour
         Attack();
         if(timerStart1){
             timerStart1 = false;
-            StartCoroutine(startTimerCooldown(attackCooldown1, attackCollider1));
+            StartCoroutine(startTimerCooldown(attackDuration1, attackCollider1));
         }
         else if(timerStart2){
             timerStart2 = false;
-            StartCoroutine(startTimerCooldown(attackCooldown2, attackCollider2));
+            StartCoroutine(startTimerCooldown(attackDuration2, attackCollider2));
+        }
+        else if(timerStart3){
+            timerStart3 = false;
+            StartCoroutine(startTimerCooldown(attackDuration3, attackCollider3));
         }
     }
 
@@ -40,20 +46,31 @@ public class PlayerAttack : MonoBehaviour
                 namesHereCHECK = PlayerName.Bs;
                 canAttack = false;
                 timerStart1 = true;
+                playerIdentity.IsAttacking(true);
             }
-            if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Cs){
+            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Cs){
                 attackCollider2.SetActive(true);
                 namesHereCHECK = PlayerName.Cs;
                 canAttack = false;
                 timerStart2 = true;
+                playerIdentity.IsAttacking(true);
+            }
+            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Ds){
+                attackCollider3.SetActive(true);
+                namesHereCHECK = PlayerName.Ds;
+                canAttack = false;
+                timerStart3 = true;
+                playerIdentity.IsAttacking(true);
             }
         }
     }
 
-    private IEnumerator startTimerCooldown(float attackCooldown, GameObject attackCollider){
-        yield return new WaitForSeconds(attackCooldown);
+    private IEnumerator startTimerCooldown(float attackDuration, GameObject attackCollider){
+        yield return new WaitForSeconds(attackDuration);
         attackCollider.SetActive(false);
+        yield return new WaitForSeconds(0.01f);
         canAttack = true;
+        playerIdentity.IsAttacking(false);
     } 
     public PlayerName GetName(){
         return namesHereCHECK;

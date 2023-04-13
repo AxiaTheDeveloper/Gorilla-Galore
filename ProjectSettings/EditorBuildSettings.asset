@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SpaceInvader.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/DogLevel.unity
+    guid: c1e7883186d65654884edf5fc1bb1b38
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 0779e4ea8fd46da42a8555a89a0e4b18
   m_configObjects: {}

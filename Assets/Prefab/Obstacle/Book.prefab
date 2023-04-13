@@ -65,7 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: hurtForce
-      value: 10
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
+      propertyPath: scorePoint
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: speedObstacle

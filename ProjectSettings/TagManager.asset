@@ -11,6 +11,7 @@ TagManager:
   - Ladder
   - PlayerAttack
   - FinalGround
+  - WinTag
   layers:
   - Default
   - TransparentFX
