@@ -25,7 +25,7 @@ public class TimerUI : MonoBehaviour
         timer.text = timeString;
 
         if(timeInSeconds <= 4f){
-            Debug.Log(timeInSeconds);
+            // Debug.Log(timeInSeconds);
             timer.color = new Color32(255,0,27,255);
         }
         else{

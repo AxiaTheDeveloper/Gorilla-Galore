@@ -54,7 +54,6 @@ public class MovingPlatform : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other) {
         if(other.gameObject.CompareTag(PLAYER_TAG)){
             other.gameObject.transform.SetParent(null);
-            Debug.Log("WOIIIIIIIIII BAAAAAA");
         }
     }
 

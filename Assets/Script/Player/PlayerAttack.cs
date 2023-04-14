@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]private GameObject attackCollider1, attackCollider2, attackCollider3;
     [SerializeField]private PlayerIdentity playerIdentity;
     public enum PlayerName{
-        Bs, Cs, Ds
+        Betty, Mom, Dad
     }
     private PlayerName namesHereCHECK;
 
@@ -41,23 +41,23 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(){
         if(GameInput.Instance.GetInputInteract() && canAttack){
-            if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Bs){
+            if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Betty){
                 attackCollider1.SetActive(true);
-                namesHereCHECK = PlayerName.Bs;
+                namesHereCHECK = PlayerName.Betty;
                 canAttack = false;
                 timerStart1 = true;
                 playerIdentity.IsAttacking(true);
             }
-            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Cs){
+            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Mom){
                 attackCollider2.SetActive(true);
-                namesHereCHECK = PlayerName.Cs;
+                namesHereCHECK = PlayerName.Mom;
                 canAttack = false;
                 timerStart2 = true;
                 playerIdentity.IsAttacking(true);
             }
-            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Ds){
+            else if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Dad){
                 attackCollider3.SetActive(true);
-                namesHereCHECK = PlayerName.Ds;
+                namesHereCHECK = PlayerName.Dad;
                 canAttack = false;
                 timerStart3 = true;
                 playerIdentity.IsAttacking(true);

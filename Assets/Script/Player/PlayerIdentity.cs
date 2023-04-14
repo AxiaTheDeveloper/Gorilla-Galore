@@ -11,9 +11,9 @@ public class PlayerIdentity : MonoBehaviour
     private int playerHealth;
     private int playerScore;
     
-    //ntr ini benerin la
+
     public enum PlayerName{
-        As, Bs, Cs, Ds
+        Milo, Betty, Mom, Dad
     }
     private PlayerName names;
 
@@ -25,7 +25,9 @@ public class PlayerIdentity : MonoBehaviour
     [SerializeField]private float changeCooldownTimer;
     private bool canChange, isAttack;
     private SpriteRenderer sprite;
-    private Color spriteColor;
+    // private Color spriteColor;
+    [SerializeField]private PlayerAccessSave playerSave;
+    private int levelNow;
     
 
     [Header("Player1 Identity1")]
@@ -43,6 +45,7 @@ public class PlayerIdentity : MonoBehaviour
     [SerializeField]private float jumpForce4;
 
     //event
+    public event EventHandler OnDeath;
 
     public event EventHandler<OnChangeHealthEventArgs> OnChangeHealth;
     
@@ -60,8 +63,8 @@ public class PlayerIdentity : MonoBehaviour
     private void Start() {
         playerScore = 0;
         playerHealth = playerHealthTotal;
-
-        names = PlayerName.As;
+        levelNow = playerSave.GetLevelNow();
+        names = PlayerName.Milo;
         Player1.SetActive(true);
         Player2.SetActive(false);
         Player3.SetActive(false);
@@ -81,37 +84,36 @@ public class PlayerIdentity : MonoBehaviour
     }
     private void changeCharacter(){
         if(canChange){
-            //buat ini ntr diakses lwt save file di scriptable aja
             if(gameInput.GetInputChangePlayer1() && !Player1.activeSelf){
                 SetIdentity(Player1,speedPlayer1,jumpForce1);
-                names = PlayerName.As;
+                names = PlayerName.Milo;
                 Player1.SetActive(true);
                 Player2.SetActive(false);
                 Player3.SetActive(false);
                 Player4.SetActive(false);
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer2() && !Player2.activeSelf){
+            else if(gameInput.GetInputChangePlayer2() && !Player2.activeSelf && levelNow > 1){
                 SetIdentity(Player2,speedPlayer2,jumpForce2);
-                names = PlayerName.Bs;
+                names = PlayerName.Betty;
                 Player1.SetActive(false);
                 Player2.SetActive(true);
                 Player3.SetActive(false);
                 Player4.SetActive(false);
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer3() && !Player3.activeSelf){
+            else if(gameInput.GetInputChangePlayer3() && !Player3.activeSelf && levelNow > 2){
                 SetIdentity(Player3,speedPlayer3,jumpForce3);
-                names = PlayerName.Cs;
+                names = PlayerName.Mom;
                 Player1.SetActive(false);
                 Player2.SetActive(false);
                 Player3.SetActive(true);
                 Player4.SetActive(false);
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer4() && !Player4.activeSelf){
+            else if(gameInput.GetInputChangePlayer4() && !Player4.activeSelf && levelNow > 3){
                 SetIdentity(Player4,speedPlayer4,jumpForce4);
-                names = PlayerName.Ds;
+                names = PlayerName.Dad;
                 Player1.SetActive(false);
                 Player2.SetActive(false);
                 Player3.SetActive(false);
@@ -127,9 +129,6 @@ public class PlayerIdentity : MonoBehaviour
         playerMove.SetPlayerJumpForce(forceJump);
         playerMove.SetPlayerSpeed(speed);
         sprite = player.GetComponentInChildren<SpriteRenderer>();
-        spriteColor = sprite.color;
-        spriteColor.a = 1f; 
-        sprite.color = spriteColor;
     }
 
     private void resetCooldown(){
@@ -148,7 +147,7 @@ public class PlayerIdentity : MonoBehaviour
         // Debug.Log(playerHealth);
         if(playerHealth <= 0){
             playerHealth = 0;
-            DKGameManager.Instance.setGameOver(false);
+            OnDeath?.Invoke(this,EventArgs.Empty);
             //tp ini harusnya dinyalain stlh animasi slsai sih
 
             // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -173,18 +172,20 @@ public class PlayerIdentity : MonoBehaviour
     public void IsAttacking(bool change){
         isAttack = change;
     }
-    public void ChangeSpriteRenderer(float change){
-        spriteColor.a = change; 
-        sprite.color = spriteColor;
+    public void OnSpriteRenderer(){
+        sprite.enabled = true;
+    }
+    public SpriteRenderer GetSprite(){
+        return sprite;
     }
 
-    // public int GetPlayerHealth(){
-    //     return playerHealth;
-    // }
+    public int GetPlayerHealth(){
+        return playerHealth;
+    }
     public int GetPlayerHealthTotal(){
         return playerHealthTotal;
     }
-    // public int GetPlayerScore(){
-    //     return playerScore;
-    // }
+    public int GetPlayerScore(){
+        return playerScore;
+    }
 }

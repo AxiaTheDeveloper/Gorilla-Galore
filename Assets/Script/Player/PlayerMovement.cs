@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private float keyInputX;
     
     
+    
 
     [Header("This is for Player Movement")]
     private float speedPlayer; 
@@ -17,24 +19,27 @@ public class PlayerMovement : MonoBehaviour
     private bool isJalan; //tugas utama animasi Jalan
 
     [Header("This is for Player Jump")]
+    [SerializeField]private LayerMask layerGround;
+    [SerializeField]private LayerMask layerLadder;
+    // private bool isOnGround;
+    [SerializeField]private int saveTotalJump;
     private float jumpForce;
     private Vector2 loncatVector = new Vector2(0,1);
     private const float JUMP_MULTIPLIER = 100;
     private const string DARATAN_TAG = "Daratan";
     private Collider2D coll;
-    [SerializeField]private LayerMask layerGround;
-    [SerializeField]private LayerMask layerLadder;
-    // private bool isOnGround;
-    [SerializeField]private int saveTotalJump;
+    
     private int totalJump;
 
     [Header("This is for Player Hurt")]
-    private bool isHurt;
-    [SerializeField]private ObstaclePool obsPool;
-    [SerializeField]private float invisTime;
+    
+    [SerializeField]private GotHit hit;
     [SerializeField]private PlayerIdentity playerIdentity;
+    private bool isHurt, isInvis, wasInvis;
+    
 
-    [Header("This is for Player Hurt")]
+    [Header("This is for Player Climb")]
+    [SerializeField]private float climbSpeed;
     private bool canClimb, isClimb;
     private Collider2D[] results;
     private const string LAYER_TAG_GROUND = "Ground";
@@ -44,7 +49,11 @@ public class PlayerMovement : MonoBehaviour
     private float keyInputY;
     private Vector3 arahGerakLadder = new Vector3(0,0,0);
     private float gravityScaleTemp;
-    [SerializeField]private float climbSpeed;
+    
+    public event EventHandler OnClimb, OnNotClimb, OnClimbMove, OnClimbNotMove;
+
+    [Header("This is for Cinematic")]
+    private bool isMasukCinematicPertama;
 
     
     
@@ -62,7 +71,9 @@ public class PlayerMovement : MonoBehaviour
         isHurt = false;
         canClimb = false;
         isClimb = false;
-        // isInvis = false;
+        isInvis = false;
+        wasInvis = false;
+        isMasukCinematicPertama = true;
         gravityScaleTemp = rb.gravityScale;
         totalJump = saveTotalJump;
     }
@@ -81,9 +92,21 @@ public class PlayerMovement : MonoBehaviour
             else if(isHurt){
                 if(Mathf.Abs(rb.velocity.x) < 0.1f){
                     isHurt = false;
-                    StartCoroutine(InvisTimer());
+                    
                 }
             }
+        }
+        else if(DKGameManager.Instance.IsGameCinematic()){
+            if(isMasukCinematicPertama){
+                keyInputX = 0;
+                isJalan = false;
+                OnNotClimb?.Invoke(this,EventArgs.Empty);
+                //jalanin metod cinematicnya
+            }
+        }
+        if(wasInvis){
+            playerIdentity.OnSpriteRenderer();
+            wasInvis = false;
         }
         
         
@@ -103,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-    //  && transform.position.y > coll.gameObject.transform.position.y 
+
     public void ResetJump(){
         totalJump = saveTotalJump;
     }
@@ -115,7 +138,8 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log(keyInputY);
         if(canClimb && keyInputY != 0){
             isClimb = true;
-            
+            OnClimb?.Invoke(this,EventArgs.Empty);
+            isJalan = false;
         }
     }
 
@@ -131,6 +155,14 @@ public class PlayerMovement : MonoBehaviour
             Collider2D tileLadder = ladder.GetComponent<LadderTileController>().GetTileCollider(); 
             if(tileLadder){
                 Physics2D.IgnoreCollision(coll, tileLadder, true);
+            }
+            Debug.Log(keyInputY);
+            if(keyInputY == 0){
+                
+                OnClimbNotMove?.Invoke(this,EventArgs.Empty);
+            }
+            else{
+                OnClimbMove?.Invoke(this,EventArgs.Empty);
             }
             
         }
@@ -168,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
                 ladder = null;
                 isClimb = false;
                 canClimb = false;
+                OnNotClimb?.Invoke(this,EventArgs.Empty);
             }
             
         }
@@ -187,6 +220,9 @@ public class PlayerMovement : MonoBehaviour
     public void SetPlayerJumpForce(float forceJump){
         jumpForce = forceJump;
     }
+    public bool GetIsJalan(){
+        return isJalan;
+    }
 
     //gothurt
     public bool GetIsHurt(){
@@ -195,10 +231,17 @@ public class PlayerMovement : MonoBehaviour
     public void GotHurt(float hurtForce){
         isHurt = true;
         // isInvis = true;
-        playerIdentity.ChangeSpriteRenderer(0.5f);
-        foreach (Transform obs in obsPool.Obstacles){
-            Physics2D.IgnoreCollision(coll, obs.GetComponent<Collider2D>(), true);
+        // foreach (Transform obs in obsPool.Obstacles){
+        //     Physics2D.IgnoreCollision(coll, obs.GetComponent<Collider2D>(), true);
+        //     Debug.Log(obs);
+        // }
+        Physics2D.IgnoreLayerCollision(8, 9, true);
+        isInvis = true;
+        if(playerIdentity.GetPlayerHealth()>0){
+            hit.changeBlink();
         }
+        
+        
         
         rb.velocity = new Vector2(hurtForce, rb.velocity.y);
     }
@@ -207,15 +250,21 @@ public class PlayerMovement : MonoBehaviour
     public bool GetIsClimb(){
         return isClimb;
     }
-
-    private IEnumerator InvisTimer(){
-        yield return new WaitForSeconds(invisTime);
-        // isInvis = false;
+    public void canGetHit(){
+        // foreach (Transform obs in obsPool.Obstacles){
+        //     Physics2D.IgnoreCollision(coll, obs.GetComponent<Collider2D>(), false);
+        //     Debug.Log(obs);
+        // }
+        Physics2D.IgnoreLayerCollision(8, 9, false);
         
-        foreach (Transform obs in obsPool.Obstacles){
-            Physics2D.IgnoreCollision(coll, obs.GetComponent<Collider2D>(), false);
-        }
-        playerIdentity.ChangeSpriteRenderer(1f);
+        isInvis = false;
+        wasInvis = true;
+    }
+
+
+
+    public bool GetIsInvis(){
+        return isInvis;
     }
     
 }

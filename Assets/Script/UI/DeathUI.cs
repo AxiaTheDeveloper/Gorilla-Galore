@@ -15,10 +15,10 @@ public class DeathUI : MonoBehaviour
     
     private int level;
 
-    private CanvasGroup canvas;
+    [SerializeField]private CanvasGroup canvas;
 
     private void Awake() {
-        canvas = GetComponent<CanvasGroup>();
+        // canvas = GetComponent<CanvasGroup>();
 
         restartButton.onClick.AddListener(() => {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -37,10 +37,12 @@ public class DeathUI : MonoBehaviour
     private void gameManager_OnStopDie(object sender, System.EventArgs e){
         
         judulGameOver.text = YOU_DIE_TEXT;
+        // Debug.Log("Test>?");
         show();
     }
     private void gameManager_OnStopTimeUp(object sender, System.EventArgs e){
         judulGameOver.text = TIMES_UP_TEXT;
+        // Debug.Log("Test");
         show();
     }
 

@@ -5,12 +5,19 @@ using TMPro;
 public class ScoreUI : MonoBehaviour
 {
     [SerializeField]private PlayerIdentity playerIdentity;
+    [SerializeField]private PlayerAccessSave playerSave;
     [SerializeField]private TextMeshProUGUI playerScoreText;
-    private int score;
+    [SerializeField]private TextMeshProUGUI bestScoreText;
+
+    private int score, bestScore;
     
     private void Start() {
         playerIdentity.OnChangeScore += playerIdentity_OnChangeScore;
         score = 0;
+        bestScore = playerSave.GetBestScore();
+
+        //siapin tempatnya~~
+        bestScoreText.text = bestScore.ToString("D6");
         playerScoreText.text = score.ToString("D6");
         
     }

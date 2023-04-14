@@ -28,7 +28,7 @@ public class DKGameManager : MonoBehaviour
     [SerializeField]private StartUI startUI;
     public event EventHandler OnStopDie, OnStopTimeUp; // ini buat d death ui semua,onstop die berarti sii text isinya you died, kalo satunya ya time's up
 
-    private bool isWin, doDelayStart;
+    private bool isWin, doDelayStart, isDeathUIOut;
     
 
 
@@ -44,6 +44,7 @@ public class DKGameManager : MonoBehaviour
     private void Start() {
         isWin = false;
         doDelayStart = true;
+        isDeathUIOut = false;
         gamePlayTimer = gamePlayTimerTotal;
         Time.timeScale = 1f;
         startUI.OnInteractStartGame += startUI_OnInteractStartGame;
@@ -73,18 +74,22 @@ public class DKGameManager : MonoBehaviour
         }
         else if(state == gameState.GameOver){
             OnStopGame?.Invoke(this,EventArgs.Empty);
-            if(isWin){
+            if(!isDeathUIOut){
+                if(isWin){
                 state = gameState.Cinematic;
                 OnCinematicGame?.Invoke(this,EventArgs.Empty);
-            }
-            else{
-                if(gamePlayTimer > 0){
-                    OnStopDie?.Invoke(this,EventArgs.Empty);
                 }
                 else{
-                    OnStopTimeUp?.Invoke(this,EventArgs.Empty);
+                    if(gamePlayTimer > 0){
+                        OnStopDie?.Invoke(this,EventArgs.Empty);
+                    }
+                    else{
+                        OnStopTimeUp?.Invoke(this,EventArgs.Empty);
+                    }
                 }
+                isDeathUIOut = true;
             }
+            
         
         }
         else if(state == gameState.Cinematic){

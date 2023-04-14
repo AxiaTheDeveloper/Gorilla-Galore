@@ -43,16 +43,16 @@ public class Obstacle : MonoBehaviour
         if(other.gameObject.CompareTag(DESTROYER_TAG)){
             
             PlayerAttack cek = other.gameObject.GetComponentInParent<PlayerAttack>();
-            if(cek.GetName() == PlayerAttack.PlayerName.Bs && nama == NamaDamageObject.Bone){
+            if(cek.GetName() == PlayerAttack.PlayerName.Betty && nama == NamaDamageObject.Bone){
                 Debug.Log("Test");
                 other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }
-            if(cek.GetName() == PlayerAttack.PlayerName.Cs && nama == NamaDamageObject.Book){
+            if(cek.GetName() == PlayerAttack.PlayerName.Mom && nama == NamaDamageObject.Book){
                 other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }
-            if(cek.GetName() == PlayerAttack.PlayerName.Ds && nama == NamaDamageObject.Paper){
+            if(cek.GetName() == PlayerAttack.PlayerName.Dad && nama == NamaDamageObject.Paper){
                 other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5862043991732368215}
   - component: {fileID: 8534837963377849963}
-  m_Layer: 0
+  - component: {fileID: 1114851706220328109}
+  m_Layer: 6
   m_Name: Platformnya
-  m_TagString: Untagged
+  m_TagString: Daratan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,6 +50,20 @@ MonoBehaviour:
   position2: {fileID: 5941259462272684321}
   speedPlatform: 10
   timerIdleTotal: 1
+--- !u!114 &1114851706220328109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364019767761933607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab2aba1bee367d488e2d52896772a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direct: 1
+  addSpeed: 0
 --- !u!1 &5941259462226684679
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5941259462995106926}
   - component: {fileID: 5941259462995106927}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platformnya
   m_TagString: Untagged
   m_Icon: {fileID: 0}

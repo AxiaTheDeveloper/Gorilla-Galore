@@ -23,6 +23,7 @@ public class ObstaclePool : MonoBehaviour
 
         for(int i=0;i<totalObstacle;i++){
             Transform chosenObstacle = ObstacleArrayPrefab[Random.Range(0,ObstacleArrayPrefab.Length)];
+            Debug.Log("Hallo ???");
             Transform obstacle = Instantiate(chosenObstacle);
             obstacle.gameObject.SetActive(false);
             obstacle.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
@@ -37,7 +38,7 @@ public class ObstaclePool : MonoBehaviour
     private void gameManager_OnStartGame(object sender, System.EventArgs e){
         StartCoroutine(startSpawn());
     }
-    private void gameManager_OnStopGame(object sender, System.EventArgs e){
+    private void gameManager_OnStopGame(object sender, System.EventArgs e){ 
         isSpawnOn = false;
         StopCoroutine(startSpawn());
     }
@@ -59,7 +60,7 @@ public class ObstaclePool : MonoBehaviour
                     random = -1;
                 }
                 else if(levelNow == Level.level2){
-                    random = Random.Range(0,2) == 0 ? -1 : 1;
+                    random = Random.Range(0,3) % 2 == 0 ? 1 : -1;
                 }
                 else if(levelNow == Level.level3){
                     random = Random.Range(0,2) == 0 ? -1 : 1;

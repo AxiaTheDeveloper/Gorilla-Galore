@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField]private PlayerMovement playerMovement;
     
     [SerializeField]private PlayerIdentity playerIdentity;
+    [SerializeField]private PlayerAccessSave playerSave;
     private const string HEALING_TAG = "Healing";
     private const string TIME_ENHANCE_TAG = "TimeEnhance";
     private const string OBSTACLE_TAG = "Obstacle";
@@ -24,7 +25,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.CompareTag(OBSTACLE_TAG)){
-            if(!playerMovement.GetIsHurt() && DKGameManager.Instance.IsGameStart()){
+            if(!playerMovement.GetIsHurt() && DKGameManager.Instance.IsGameStart() && !playerMovement.GetIsInvis()){
+                // Debug.Log("WTF");
                 obs = other.gameObject.GetComponent<Obstacle>();
                 damage = obs.GetDamage();
                 hurtForce = obs.GetHurtForce();
@@ -65,6 +67,7 @@ public class PlayerInteraction : MonoBehaviour
             //add ke game manager
         }
         else if(other.gameObject.CompareTag(WIN_TAG)){
+            playerSave.PlayerWin();
             DKGameManager.Instance.setGameOver(true);
         }
         else if(other.gameObject.CompareTag(FINAL_GROUND_TAG)){

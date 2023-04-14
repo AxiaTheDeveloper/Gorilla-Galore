@@ -20,6 +20,7 @@ public class PlayerHealthUI : MonoBehaviour
         fillHealth.fillAmount = 1f;  
         healthTotal = playerIdentity.GetPlayerHealthTotal();
         healthText.text = healthTotal.ToString() + " / " + healthTotal.ToString();
+        fillHealth.color = new Color32(44,255,0,255);
         // Show();
         
     }
