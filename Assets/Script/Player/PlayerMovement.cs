@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
             if(tileLadder){
                 Physics2D.IgnoreCollision(coll, tileLadder, true);
             }
-            Debug.Log(keyInputY);
+            // Debug.Log(keyInputY);
             if(keyInputY == 0){
                 
                 OnClimbNotMove?.Invoke(this,EventArgs.Empty);

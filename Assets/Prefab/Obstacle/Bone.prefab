@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: damage
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: hurtForce
@@ -69,15 +69,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: scorePoint
-      value: 3
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4866020213382461621, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: speedObstacle
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5717271955348584542, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1646845148, guid: 12dce0ab46d735c43970e87ed3a8e7bf, type: 3}
+    - target: {fileID: 5717271955348584542, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: m_Color.b
-      value: 0.53207546
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5717271955348584542, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: m_Color.g
@@ -85,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5717271955348584542, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: m_Color.r
-      value: 0.7643024
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8213816309283877633, guid: 15b13daa0c9d00a4ab0b6921ad4efd18, type: 3}
       propertyPath: m_Name
@@ -113,4 +117,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.13

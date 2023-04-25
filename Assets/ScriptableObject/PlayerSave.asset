@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4501accbd87804c8a109c24e94583e, type: 3}
   m_Name: PlayerSave
   m_EditorClassIdentifier: 
-  level: 3
+  level: 4
+  alreadyPlayed: 1
+  baruSajaSelesaiGame: 0
   score: 00000000000000000000000000000000

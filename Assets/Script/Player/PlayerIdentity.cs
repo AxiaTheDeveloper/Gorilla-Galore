@@ -59,6 +59,13 @@ public class PlayerIdentity : MonoBehaviour
     public class OnChangeScoreEventArgs : EventArgs{
         public int playerScore;
     }
+
+    public event EventHandler<OnChangePlayerEventArgs> OnChangePlayer;
+    
+    public class OnChangePlayerEventArgs : EventArgs{
+        public int names;
+    }
+    [SerializeField]private PlayerInteraction playerInteract;
     
     private void Start() {
         playerScore = 0;
@@ -84,39 +91,86 @@ public class PlayerIdentity : MonoBehaviour
     }
     private void changeCharacter(){
         if(canChange){
-            if(gameInput.GetInputChangePlayer1() && !Player1.activeSelf){
+            // Debug.Log(levelNow);
+            Debug.Log(Player1.activeSelf);
+                Debug.Log(Player2.activeSelf);
+                Debug.Log(Player3.activeSelf);
+                Debug.Log(Player4.activeSelf);
+            if(gameInput.GetInputChangePlayer1() && !Player1.activeSelf && !playerInteract.GetisOnMoving()){
+                OnChangePlayer?.Invoke(this, new OnChangePlayerEventArgs{
+                    names = 0
+                });
                 SetIdentity(Player1,speedPlayer1,jumpForce1);
                 names = PlayerName.Milo;
+                
                 Player1.SetActive(true);
-                Player2.SetActive(false);
-                Player3.SetActive(false);
-                Player4.SetActive(false);
+                if(Player2.activeSelf){
+                    Player2.SetActive(false);
+                }
+                if(Player3.activeSelf){
+                    Player3.SetActive(false);
+                }
+                if(Player4.activeSelf){
+                    Player4.SetActive(false);
+                }
+                
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer2() && !Player2.activeSelf && levelNow > 1){
+            else if(gameInput.GetInputChangePlayer2() && !Player2.activeSelf && levelNow > 1 && !playerInteract.GetisOnMoving()){
+                OnChangePlayer?.Invoke(this, new OnChangePlayerEventArgs{
+                    names = 1
+                });
                 SetIdentity(Player2,speedPlayer2,jumpForce2);
                 names = PlayerName.Betty;
-                Player1.SetActive(false);
+                if(Player1.activeSelf){
+                    Player1.SetActive(false);
+                }
+                
                 Player2.SetActive(true);
-                Player3.SetActive(false);
-                Player4.SetActive(false);
+                if(Player3.activeSelf){
+                    Player3.SetActive(false);
+                }
+                if(Player4.activeSelf){
+                    Player4.SetActive(false);
+                }
+                
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer3() && !Player3.activeSelf && levelNow > 2){
+            else if(gameInput.GetInputChangePlayer3() && !Player3.activeSelf && levelNow > 2 && !playerInteract.GetisOnMoving()){
+                OnChangePlayer?.Invoke(this, new OnChangePlayerEventArgs{
+                    names = 2
+                });
                 SetIdentity(Player3,speedPlayer3,jumpForce3);
                 names = PlayerName.Mom;
-                Player1.SetActive(false);
-                Player2.SetActive(false);
+                if(Player1.activeSelf){
+                    Player1.SetActive(false);
+                }
+                if(Player2.activeSelf){
+                    Player2.SetActive(false);
+                }
+                
                 Player3.SetActive(true);
-                Player4.SetActive(false);
+                if(Player4.activeSelf){
+                    Player4.SetActive(false);
+                }
                 resetCooldown();
             }
-            else if(gameInput.GetInputChangePlayer4() && !Player4.activeSelf && levelNow > 3){
+            else if(gameInput.GetInputChangePlayer4() && !Player4.activeSelf && levelNow > 3 && !playerInteract.GetisOnMoving()){
+                OnChangePlayer?.Invoke(this, new OnChangePlayerEventArgs{
+                    names = 3
+                });
                 SetIdentity(Player4,speedPlayer4,jumpForce4);
                 names = PlayerName.Dad;
-                Player1.SetActive(false);
-                Player2.SetActive(false);
-                Player3.SetActive(false);
+                
+                if(Player1.activeSelf){
+                    Player1.SetActive(false);
+                }
+                if(Player2.activeSelf){
+                    Player2.SetActive(false);
+                }
+                if(Player3.activeSelf){
+                    Player3.SetActive(false);
+                }
                 Player4.SetActive(true);
                 resetCooldown();
             }
@@ -148,6 +202,8 @@ public class PlayerIdentity : MonoBehaviour
         if(playerHealth <= 0){
             playerHealth = 0;
             OnDeath?.Invoke(this,EventArgs.Empty);
+            DKGameManager.Instance.setGameOver(false);
+            //URUSI KEMATIANNNNNNN
             //tp ini harusnya dinyalain stlh animasi slsai sih
 
             // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -188,4 +244,5 @@ public class PlayerIdentity : MonoBehaviour
     public int GetPlayerScore(){
         return playerScore;
     }
+
 }

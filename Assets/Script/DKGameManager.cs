@@ -13,13 +13,13 @@ public class DKGameManager : MonoBehaviour
     [SerializeField]private Level levelNow;
 
     private enum gameState{
-        WaitingToStart, GameStart, GameOver, Cinematic
+        WaitingToStart, GameStart, GameOver, Cinematic, Pause
     }
     private gameState state;
     //Idk if we need countdown or not
     [SerializeField]private float countDownTimer, gamePlayTimerTotal;
     private float gamePlayTimer;
-    private bool isGamePause;
+    // private bool isGamePause;
 
     //event
     public event EventHandler OnStartGame, OnStopGame, OnCinematicGame;
@@ -46,6 +46,7 @@ public class DKGameManager : MonoBehaviour
         doDelayStart = true;
         isDeathUIOut = false;
         gamePlayTimer = gamePlayTimerTotal;
+        // isGamePause = false;
         Time.timeScale = 1f;
         startUI.OnInteractStartGame += startUI_OnInteractStartGame;
     }
@@ -76,8 +77,8 @@ public class DKGameManager : MonoBehaviour
             OnStopGame?.Invoke(this,EventArgs.Empty);
             if(!isDeathUIOut){
                 if(isWin){
-                state = gameState.Cinematic;
-                OnCinematicGame?.Invoke(this,EventArgs.Empty);
+                    state = gameState.Cinematic;
+                    OnCinematicGame?.Invoke(this,EventArgs.Empty);
                 }
                 else{
                     if(gamePlayTimer > 0){
@@ -120,19 +121,24 @@ public class DKGameManager : MonoBehaviour
         return gamePlayTimer;
     }
 
-    public void PauseGame(){
-        isGamePause = !isGamePause;
-        if(isGamePause){
-            Time.timeScale = 1f;
-            // OnGameUnPause?.Invoke(this,EventArgs.Empty);
-        }
-        else{
-            Time.timeScale = 0f;
+    // public void PauseGame(){
+    //     isGamePause = !isGamePause;
+    //     if(isGamePause){
+    //         Time.timeScale = 0f;
+    //         state = gameState.Pause;
+    //         OnStopGame?.Invoke(this,EventArgs.Empty);
+    //         // OnGameUnPause?.Invoke(this,EventArgs.Empty);
+    //     }
+    //     else{
+    //         Debug.Log("OnStartGame");
+    //         Time.timeScale = 1f;
+    //         state = gameState.GameStart;
+    //         OnStartGame?.Invoke(this,EventArgs.Empty);
             
-            // OnGamePause?.Invoke(this,EventArgs.Empty);
-        }
+    //         // OnGamePause?.Invoke(this,EventArgs.Empty);
+    //     }
         
-    }
+    // }
 
     public int GetLevel(){
         if(levelNow == Level.level1){

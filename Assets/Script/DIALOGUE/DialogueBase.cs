@@ -21,6 +21,7 @@ namespace DialogueSystem{
             for(int i=0; i<input.Length; i++){
                 textHolder.text += input[i];
                 // SoundAudioManager.Instance.PlayTypingSound();
+                // Debug.Log(input[i]);
                 yield return new WaitForSeconds(delay);
             }
             yield return new WaitForSeconds(delayBetweenLines);

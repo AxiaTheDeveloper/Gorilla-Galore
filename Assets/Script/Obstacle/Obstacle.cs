@@ -26,10 +26,15 @@ public class Obstacle : MonoBehaviour
     private void Start() {
         saveSpeed = speedObstacle;
         DKGameManager.Instance.OnStopGame += gameManager_OnStopGame;
+        DKGameManager.Instance.OnStartGame += gameManager_OnStartGame;
 
     }
     private void gameManager_OnStopGame(object sender, System.EventArgs e){
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+    private void gameManager_OnStartGame(object sender, System.EventArgs e){
+
+        rb.constraints = RigidbodyConstraints2D.None;
     }
     
 
@@ -49,12 +54,21 @@ public class Obstacle : MonoBehaviour
                 this.gameObject.SetActive(false);
             }
             if(cek.GetName() == PlayerAttack.PlayerName.Mom && nama == NamaDamageObject.Book){
+                
+                
                 other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
             }
             if(cek.GetName() == PlayerAttack.PlayerName.Dad && nama == NamaDamageObject.Paper){
                 other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
                 this.gameObject.SetActive(false);
+                
+                
+            }
+            if(cek.GetName() == PlayerAttack.PlayerName.Dad && nama == NamaDamageObject.Bomb){
+                other.gameObject.GetComponentInParent<PlayerIdentity>().changeScore(scorePoint);
+                this.gameObject.SetActive(false);
+                
             }
             
         }

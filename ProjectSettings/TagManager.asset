@@ -12,6 +12,7 @@ TagManager:
   - PlayerAttack
   - FinalGround
   - WinTag
+  - OnMoving
   layers:
   - Default
   - TransparentFX

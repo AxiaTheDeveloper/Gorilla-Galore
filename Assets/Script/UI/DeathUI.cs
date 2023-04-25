@@ -24,8 +24,8 @@ public class DeathUI : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
         mainmenuButton.onClick.AddListener(() => {
-            // LoadingScreenScene.Load(LoadingScreenScene.Scene.MainGame);
-            //masih nanti tunggu nama scene..
+            LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.MainMenu);
+            
         });
     }
     private void Start() {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class PlayerAttack : MonoBehaviour
     }
     private PlayerName namesHereCHECK;
 
-    private bool canAttack, timerStart1, timerStart2, timerStart3;
+    private bool canAttack, timerStart1, timerStart2, timerStart3, isFirstTimeAttack;
     
     [SerializeField]private float attackDuration1,attackDuration2, attackDuration3;
+    public event EventHandler OnPlayerAttack;
 
     private void Start() {
         attackCollider1.SetActive(false);
@@ -22,6 +24,7 @@ public class PlayerAttack : MonoBehaviour
         canAttack = true; 
         timerStart1 = false;
         timerStart2 = false;
+        isFirstTimeAttack = true;
     }
     private void Update() {
         Attack();
@@ -41,10 +44,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(){
         if(GameInput.Instance.GetInputInteract() && canAttack){
+            
             if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Betty){
                 attackCollider1.SetActive(true);
                 namesHereCHECK = PlayerName.Betty;
                 canAttack = false;
+                OnPlayerAttack?.Invoke(this,EventArgs.Empty);
                 timerStart1 = true;
                 playerIdentity.IsAttacking(true);
             }
@@ -52,6 +57,7 @@ public class PlayerAttack : MonoBehaviour
                 attackCollider2.SetActive(true);
                 namesHereCHECK = PlayerName.Mom;
                 canAttack = false;
+                OnPlayerAttack?.Invoke(this,EventArgs.Empty);
                 timerStart2 = true;
                 playerIdentity.IsAttacking(true);
             }
@@ -59,9 +65,11 @@ public class PlayerAttack : MonoBehaviour
                 attackCollider3.SetActive(true);
                 namesHereCHECK = PlayerName.Dad;
                 canAttack = false;
+                OnPlayerAttack?.Invoke(this,EventArgs.Empty);
                 timerStart3 = true;
                 playerIdentity.IsAttacking(true);
             }
+            
         }
     }
 
@@ -74,6 +82,12 @@ public class PlayerAttack : MonoBehaviour
     } 
     public PlayerName GetName(){
         return namesHereCHECK;
+    }
+    public bool GetIsFirstTime(){
+        return isFirstTimeAttack;
+    }
+    public void ChangeIsFirstTime(){
+        isFirstTimeAttack = false;
     }
 
 }

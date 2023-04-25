@@ -9,9 +9,33 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/DogLevel.unity
-    guid: c1e7883186d65654884edf5fc1bb1b38
-  - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 0779e4ea8fd46da42a8555a89a0e4b18
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 49885cf69cc3e1d4f962e0f527318c46
+  - enabled: 1
+    path: Assets/Scenes/MiloLevel.unity
+    guid: 394a5713bbbfa7242a612cc8be375eb0
+  - enabled: 1
+    path: Assets/Scenes/MiloLevel2.unity
+    guid: dddce035c5fe89142955b43af3bd179c
+  - enabled: 1
+    path: Assets/Scenes/BettyLevel.unity
+    guid: d6e3ba11a99c979478e71f6d37fc170e
+  - enabled: 1
+    path: Assets/Scenes/MomLevel.unity
+    guid: b09378795349cc7469504a7c9e23121f
+  - enabled: 1
+    path: Assets/Scenes/DadLevel.unity
+    guid: 6e83f31eceb01d74e80925877d546346
+  - enabled: 1
+    path: Assets/Scenes/GortLevel.unity
+    guid: 395ef5c58e2c3244cbbf63036ba09c03
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/FinalCutscene.unity
+    guid: 696f512f00b082c4e9845f75022b6555
   m_configObjects: {}
