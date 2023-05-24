@@ -44,6 +44,7 @@ public class MiloLevel2 : MonoBehaviour
         if(SkipButton.gameObject.activeSelf){
             SkipButton.gameObject.SetActive(false);
         }
+        
         LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.BettyLevel);
         
     }

@@ -16,7 +16,7 @@ public class DeathUI : MonoBehaviour
     private int level;
 
     [SerializeField]private CanvasGroup canvas;
-
+    private const string BGM_GAME_OBJECT = "BGM";
     private void Awake() {
         // canvas = GetComponent<CanvasGroup>();
 
@@ -24,6 +24,8 @@ public class DeathUI : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
         mainmenuButton.onClick.AddListener(() => {
+            GameObject bgm = GameObject.Find(BGM_GAME_OBJECT);
+            Destroy(bgm);
             LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.MainMenu);
             
         });

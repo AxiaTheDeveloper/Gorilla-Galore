@@ -19,6 +19,11 @@ public class FinalCutsceneUI : MonoBehaviour
         canvas = FinalEnding.GetComponent<CanvasGroup>();
         SkipButton.onClick.AddListener(() => {
             if(!FinalEnding.activeSelf){
+                Pembuka.SetActive(false);
+                playerSO.level = 4;
+                if(!playerSO.alreadyPlayed){
+                    playerSO.alreadyPlayed = true;
+                }
                 show();
            }
             
@@ -59,12 +64,15 @@ public class FinalCutsceneUI : MonoBehaviour
         FinalEnding.SetActive(true);
         canvas.alpha = 0;
         canvas.LeanAlpha(1, 0.5f).setOnComplete(()=>{
+            
+            
             hide();
         });
     }
     public void hide(){
         canvas.alpha = 1;
         canvas.LeanAlpha(0, 0.5f).setOnComplete(()=>{
+            
             FinalEnding.SetActive(false);
             LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.MainMenu); 
         });

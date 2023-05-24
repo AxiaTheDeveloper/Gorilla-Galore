@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 arahGerakLadder = new Vector3(0,0,0);
     private float gravityScaleTemp;
     
-    public event EventHandler OnClimb, OnNotClimb, OnClimbMove, OnClimbNotMove;
+    public event EventHandler OnClimb, OnNotClimb, OnClimbMove, OnClimbNotMove, OnJump, OnNotJump;
 
     [Header("This is for Cinematic")]
     private bool isMasukCinematicPertama;
@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         results = new Collider2D[4];
     }
     private void Start() {
+        Physics2D.IgnoreLayerCollision(8, 9, false);
         rb.isKinematic = false;
         isJalan = false;
         // isOnGround = false;
@@ -118,7 +119,8 @@ public class PlayerMovement : MonoBehaviour
         transform.position += (arahGerak * speedPlayer * Time.deltaTime);
     }
     private void PlayerJump(){
-        if(gameInput.GetInputJump() && totalJump > 0){
+        if(gameInput.GetInputJump() && totalJump > 0 && playerIdentity.IsMilo()){
+            OnJump?.Invoke(this,EventArgs.Empty);
             // isOnGround = false;
             totalJump -= 1;
             // Debug.Log(totalJump);
@@ -128,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void ResetJump(){
+        OnNotJump?.Invoke(this,EventArgs.Empty);
         totalJump = saveTotalJump;
     }
 

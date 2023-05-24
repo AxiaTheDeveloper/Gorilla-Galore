@@ -91,7 +91,7 @@ public class MainMenuUI : MonoBehaviour
     public void Reset(){
         playerSO.level = 0;
         playerSO.baruSajaSelesaiGame = false;
-        BG.UpdateBG();
+        // BG.UpdateBG();
         ResetSave();
     }
 

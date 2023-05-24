@@ -73,7 +73,7 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag(HEALING_TAG)){
             if(playerIdentity.GetPlayerHealth() < playerIdentity.GetPlayerHealthTotal()){
-                SoundAudioManager.Instance.PlayBGM();
+                SoundAudioManager.Instance.PlayGlowEffect();
                 heal = other.gameObject.GetComponent<Items>().GetAddHealth();
                 playerIdentity.changePlayerHealth(heal);
                 other.gameObject.SetActive(false);
@@ -82,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
             //add ke player
         }
         else if(other.gameObject.CompareTag(TIME_ENHANCE_TAG)){
-            SoundAudioManager.Instance.PlayBGM();
+            SoundAudioManager.Instance.PlayGlowEffect();
             time = other.gameObject.GetComponent<Items>().GetAddTime();
             DKGameManager.Instance.AddGameTime(time);
             other.gameObject.SetActive(false);

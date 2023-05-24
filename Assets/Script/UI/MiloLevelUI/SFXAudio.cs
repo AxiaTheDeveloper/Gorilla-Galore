@@ -22,7 +22,7 @@ public class SFXAudio : MonoBehaviour
 
     public void Cassete(){
         soundAudio.StopNoiseTV();
-            soundAudio.PlayCassete();
+        soundAudio.PlayCassete();
     }
 
     

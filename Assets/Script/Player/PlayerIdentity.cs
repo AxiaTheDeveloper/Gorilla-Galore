@@ -71,6 +71,9 @@ public class PlayerIdentity : MonoBehaviour
         playerScore = 0;
         playerHealth = playerHealthTotal;
         levelNow = playerSave.GetLevelNow();
+        if(levelNow == 0){
+            levelNow = 1;
+        }
         names = PlayerName.Milo;
         Player1.SetActive(true);
         Player2.SetActive(false);
@@ -203,11 +206,10 @@ public class PlayerIdentity : MonoBehaviour
             playerHealth = 0;
             OnDeath?.Invoke(this,EventArgs.Empty);
             DKGameManager.Instance.setGameOver(false);
-            //URUSI KEMATIANNNNNNN
-            //tp ini harusnya dinyalain stlh animasi slsai sih
 
-            // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            //play death ui after animation, or both idk lmao, trus reset button
+        }
+        if(playerHealth > playerHealthTotal){
+            playerHealth = playerHealthTotal;
         }
         OnChangeHealth?.Invoke(this, new OnChangeHealthEventArgs{
             playerHealthNormalized = (float)playerHealth / playerHealthTotal,
@@ -243,6 +245,9 @@ public class PlayerIdentity : MonoBehaviour
     }
     public int GetPlayerScore(){
         return playerScore;
+    }
+    public bool IsMilo(){
+        return names == PlayerName.Milo;
     }
 
 }

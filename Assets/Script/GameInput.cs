@@ -46,7 +46,7 @@ public class GameInput : MonoBehaviour
     }
 
     public bool GetInputInteract(){
-        inputInteract = Input.GetKeyDown(KeyCode.F);
+        inputInteract = Input.GetKeyDown(KeyCode.Space);
         
         return inputInteract;
     }

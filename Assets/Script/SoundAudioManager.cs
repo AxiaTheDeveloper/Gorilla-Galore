@@ -19,6 +19,9 @@ public class SoundAudioManager : MonoBehaviour
     
 
     [SerializeField]private AudioSource DA_BGM;
+    [SerializeField]private float bgmSpeedFade;
+    [SerializeField]private float bgmMaxVol;
+
 
     private void Awake() {
         Instance = this;
@@ -36,6 +39,8 @@ public class SoundAudioManager : MonoBehaviour
         noiseTV.Play();
     }
     public void StopNoiseTV(){
+        // Debug.Log("Stop");
+        // noiseTV.volume = 0f;
         noiseTV.Stop();
     }
     public void PlayCassete(){
@@ -46,7 +51,9 @@ public class SoundAudioManager : MonoBehaviour
     }
 
     public void PlayBGM(){
+        DA_BGM.volume = 0f;
         DA_BGM.Play();
+        StartCoroutine(playFadeBGM());
     }
     public void PlayBGMOff(){
         DA_BGM.Stop();
@@ -55,5 +62,15 @@ public class SoundAudioManager : MonoBehaviour
 
     public void PlayHitSound(){
         hitSound.Play();
+    }
+
+    private IEnumerator playFadeBGM(){
+        float volumeNow = DA_BGM.volume;
+        yield return new WaitForSeconds(0.1f);
+        while(DA_BGM.volume < bgmMaxVol){
+            volumeNow += bgmSpeedFade;
+            DA_BGM.volume = volumeNow;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

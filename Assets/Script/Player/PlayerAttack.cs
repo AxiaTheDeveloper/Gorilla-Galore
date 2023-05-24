@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField]private GameObject attackCollider1, attackCollider2, attackCollider3;
     [SerializeField]private PlayerIdentity playerIdentity;
+    [SerializeField]private PlayerMovement playerMovement;
     public enum PlayerName{
         Betty, Mom, Dad
     }
@@ -43,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private void Attack(){
-        if(GameInput.Instance.GetInputInteract() && canAttack){
+        if(GameInput.Instance.GetInputInteract() && canAttack && !playerMovement.GetIsClimb()){
             
             if(playerIdentity.GetName() == PlayerIdentity.PlayerName.Betty){
                 attackCollider1.SetActive(true);

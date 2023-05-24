@@ -12,7 +12,7 @@ public class MiloLevelController : MonoBehaviour
     [SerializeField]private Button SkipButton;
     [SerializeField]private PlayerSaveScriptableObj playerSO;
     public event EventHandler OnNextSceneGo;
-
+    [SerializeField]private AudioBGM audioBGM;
 
 
     //MUSIC HERE BECAUSE ALMOST TIME"S UP
@@ -31,6 +31,7 @@ public class MiloLevelController : MonoBehaviour
             }
             introArray[4].SetActive(true);
             SkipButton.gameObject.SetActive(false);
+            SoundAudioManager.Instance.PlayBGMOff();
     }
 
     private void Start() {

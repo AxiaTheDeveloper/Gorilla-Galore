@@ -12,6 +12,7 @@ public class PlayerAnimator : MonoBehaviour
     
     private const string IS_CLIMB = "IsClimb";
     private const string IS_DEATH = "IsDeath";
+    private const string IS_JUMP = "IsJump";
     private const string IS_ATTACK = "IsAttack";
     private void Awake() {
         animatorController = GetComponent<Animator>();
@@ -25,6 +26,9 @@ public class PlayerAnimator : MonoBehaviour
         playerMovement.OnNotClimb += playerMove_OnNotClimb;
         playerMovement.OnClimbNotMove += playerMove_OnClimbNotMove;
         playerMovement.OnClimbMove += playerMove_OnClimbMove;
+
+        playerMovement.OnJump += playerMove_OnJump;
+        playerMovement.OnNotJump += playerMove_OnNotJump;
 
         playerIdentity.OnDeath += playerIdentity_OnDeath;
 
@@ -49,6 +53,16 @@ public class PlayerAnimator : MonoBehaviour
         animatorController.speed = 1f;
         
     }
+    private void playerMove_OnJump(object sender, System.EventArgs e){
+        animatorController.SetBool(IS_JUMP, true);
+        
+
+    }
+    private void playerMove_OnNotJump(object sender, System.EventArgs e){
+        animatorController.SetBool(IS_JUMP, false);
+        
+        
+    }
     private void playerIdentity_OnDeath(object sender, System.EventArgs e){
         animatorController.SetTrigger(IS_DEATH);
 
@@ -62,5 +76,8 @@ public class PlayerAnimator : MonoBehaviour
         animatorController.SetBool(IS_JALAN, playerMovement.GetIsJalan());
     }
 
+    public void DeathScreen(){
+        DKGameManager.Instance.gameOverDeath();
+    }
 
 }

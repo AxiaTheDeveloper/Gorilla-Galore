@@ -12,6 +12,7 @@ public class Gort : MonoBehaviour
     [SerializeField]private Button SkipButton;
     [SerializeField]private PlayerSaveScriptableObj playerSO;
     // public event EventHandler OnNextSceneGo;
+    private const string BGM_GAME_OBJECT = "BGM";
 
 
     private CanvasGroup canvas;
@@ -21,7 +22,7 @@ public class Gort : MonoBehaviour
     [SerializeField]private GameObject Transisi;
     private void Awake() {
         SkipButton.onClick.AddListener(() => {
-            LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.MomLevel); // ga ini fast forward ke insert disk aja , playerSO.level = 1;
+            show();
             
         });
         canvas = Transisi.GetComponent<CanvasGroup>();
@@ -30,7 +31,7 @@ public class Gort : MonoBehaviour
     {
 
         SkipButton.gameObject.SetActive(false);
-
+        
         for(int i=0;i<dialogueCutsceneArray.Length;i++){
             dialogueCutsceneArray[i].gameObject.SetActive(false);
         }
@@ -58,6 +59,8 @@ public class Gort : MonoBehaviour
         Transisi.SetActive(true);
         canvas.alpha = 0;
         playerSO.baruSajaSelesaiGame = true;
+        GameObject bgm = GameObject.Find(BGM_GAME_OBJECT);
+        Destroy(bgm);
         canvas.LeanAlpha(1, 1f).setOnComplete(()=>{
             LoadingScreenScene.LoadScene(LoadingScreenScene.Scene.FinalCutscene);
         });

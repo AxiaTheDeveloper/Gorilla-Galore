@@ -20,7 +20,7 @@ public class DKGameManager : MonoBehaviour
     [SerializeField]private float countDownTimer, gamePlayTimerTotal;
     private float gamePlayTimer;
     // private bool isGamePause;
-
+    [SerializeField]private PlayerIdentity playerIdentity;
     //event
     public event EventHandler OnStartGame, OnStopGame, OnCinematicGame;
 
@@ -28,11 +28,21 @@ public class DKGameManager : MonoBehaviour
     [SerializeField]private StartUI startUI;
     public event EventHandler OnStopDie, OnStopTimeUp; // ini buat d death ui semua,onstop die berarti sii text isinya you died, kalo satunya ya time's up
 
-    private bool isWin, doDelayStart, isDeathUIOut;
+    private bool isWin, doDelayStart, isDeathUIOut, isGamePause;
     
 
 
-    
+    public int getNextLevel(){
+        if(levelNow == Level.level1){
+            return 2;
+        }
+        else if(levelNow == Level.level2){
+            return 3;
+        }
+        else{
+            return 4;
+        }
+    }
     
     
 
@@ -46,7 +56,7 @@ public class DKGameManager : MonoBehaviour
         doDelayStart = true;
         isDeathUIOut = false;
         gamePlayTimer = gamePlayTimerTotal;
-        // isGamePause = false;
+        isGamePause = false;
         Time.timeScale = 1f;
         startUI.OnInteractStartGame += startUI_OnInteractStartGame;
     }
@@ -81,12 +91,13 @@ public class DKGameManager : MonoBehaviour
                     OnCinematicGame?.Invoke(this,EventArgs.Empty);
                 }
                 else{
-                    if(gamePlayTimer > 0){
-                        OnStopDie?.Invoke(this,EventArgs.Empty);
-                    }
-                    else{
+                    if(gamePlayTimer <= 0){
                         OnStopTimeUp?.Invoke(this,EventArgs.Empty);
                     }
+                    else if(playerIdentity.GetPlayerHealth() > 0){
+                        OnStopDie?.Invoke(this,EventArgs.Empty);
+                    }
+
                 }
                 isDeathUIOut = true;
             }
@@ -105,6 +116,9 @@ public class DKGameManager : MonoBehaviour
     // public void setCinematic(){
     //     state = gameState.Cinematic;
     // }
+    public void gameOverDeath(){
+        OnStopDie?.Invoke(this,EventArgs.Empty);
+    }
 
     public bool IsGameStart(){
         return state == gameState.GameStart;
@@ -121,24 +135,24 @@ public class DKGameManager : MonoBehaviour
         return gamePlayTimer;
     }
 
-    // public void PauseGame(){
-    //     isGamePause = !isGamePause;
-    //     if(isGamePause){
-    //         Time.timeScale = 0f;
-    //         state = gameState.Pause;
-    //         OnStopGame?.Invoke(this,EventArgs.Empty);
-    //         // OnGameUnPause?.Invoke(this,EventArgs.Empty);
-    //     }
-    //     else{
-    //         Debug.Log("OnStartGame");
-    //         Time.timeScale = 1f;
-    //         state = gameState.GameStart;
-    //         OnStartGame?.Invoke(this,EventArgs.Empty);
+    public void PauseGame(){
+        isGamePause = !isGamePause;
+        if(isGamePause){
+            Time.timeScale = 0f;
+            state = gameState.Pause;
+            OnStopGame?.Invoke(this,EventArgs.Empty);
+            // OnGameUnPause?.Invoke(this,EventArgs.Empty);
+        }
+        else{
+            Debug.Log("OnStartGame");
+            Time.timeScale = 1f;
+            state = gameState.GameStart;
+            OnStartGame?.Invoke(this,EventArgs.Empty);
             
-    //         // OnGamePause?.Invoke(this,EventArgs.Empty);
-    //     }
+            // OnGamePause?.Invoke(this,EventArgs.Empty);
+        }
         
-    // }
+    }
 
     public int GetLevel(){
         if(levelNow == Level.level1){

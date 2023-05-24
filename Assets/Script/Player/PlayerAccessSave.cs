@@ -11,6 +11,9 @@ public class PlayerAccessSave : MonoBehaviour
     private void Awake() {
         Instance = this;
         levelNow = playerSO.level;
+        if(levelNow == 0){
+            levelNow = 1;
+        }
         bestScore = playerSO.score[levelNow-1]; //-1 becuz array
         playerSO.baruSajaSelesaiGame = false;
     }
@@ -21,7 +24,7 @@ public class PlayerAccessSave : MonoBehaviour
         }
         
         if(levelNow < 4 ){
-            playerSO.level++;
+            playerSO.level = DKGameManager.Instance.getNextLevel();
         }
     }
 

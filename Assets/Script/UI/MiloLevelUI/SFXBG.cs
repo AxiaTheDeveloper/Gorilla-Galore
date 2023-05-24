@@ -19,5 +19,6 @@ public class SFXBG : MonoBehaviour
         SFXBGIMAGE.SetActive(true);
         canvas.alpha = 0;
         canvas.LeanAlpha(1, 0.2f);
+
     }
 }
