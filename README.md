@@ -4,6 +4,8 @@ Finalis Joints Game Jam UGM 2023
 [Gorilla Galore Itch.io Link](https://chickenncheese.itch.io/gorilla-galore) **(Windows Only)**
 
 
+
+(programmer notes ('25))
 For my first project after one-month training at my internship, we developed this game for Joints Game Jam 2023 competition by UGM.
 
 For this project I implemented SRP of SOLID principle. 
