@@ -19,3 +19,5 @@ Using the 4:3 display to make it feel like retro game.
 
 This was also my first time creating dialogue system and using timeline system. 
 The dialogue system was still something that you have to create an object for each set of dialogues, that's why each level still have it's own manager/controller for cutscene.
+
+For the tools and frameworks outside normal framework from unity, we used: Cinemachine & LeanTween
